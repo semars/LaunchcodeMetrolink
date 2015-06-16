@@ -112,7 +112,7 @@ North County Shuttle,3,000000,,11001,FFFFFF,27
 Clayton-Chesterfield,3,000000,,11230,FFFFFF,258
 Eureka Express,3,000000,,11231,FFFFFF,410X
 Waterloo-Columbia,3,000000,,11232,FFFFFF,2X
-Metrolink Station Shuttle,3,000000,,11233,FFFFFF,12X
+com.semars.Metrolink Station Shuttle,3,000000,,11233,FFFFFF,12X
 Lebanon - Mascoutah,3,000000,,11234,FFFFFF,17X
 Scott AFB-East Base Shuttle,3,000000,,11235,FFFFFF,21X
 Green Line,3,000000,,11236,FFFFFF,GL
@@ -122,7 +122,7 @@ Fenton-Gravois Bluffs,3,000000,,11060,FFFFFF,210
 Waterloo-Columbia,3,000000,,11063,FFFFFF,2X
 Eureka Express,3,000000,,11062,FFFFFF,410X
 Lebanon - Mascoutah,3,000000,,11065,FFFFFF,17X
-Metrolink Station Shuttle,3,000000,,11064,FFFFFF,12X
+com.semars.Metrolink Station Shuttle,3,000000,,11064,FFFFFF,12X
 Green Line,3,000000,,11067,FFFFFF,GL
 Scott AFB-East Base Shuttle,3,000000,,11066,FFFFFF,21X
 Earth City,3,000000,,11173,FFFFFF,34
