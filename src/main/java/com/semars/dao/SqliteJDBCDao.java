@@ -39,7 +39,6 @@ public class SqliteJDBCDao implements MetrolinkDao {
     }
 
     public List<Time> getArrivalTimes(int stopID) {
-        // appOutput.print("Fetching arrival times...");
         try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT arrival_time FROM stop_times WHERE stop_id=?1 ORDER BY arrival_time");
             preparedStatement.setInt(1, stopID);

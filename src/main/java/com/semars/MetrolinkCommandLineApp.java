@@ -34,6 +34,7 @@ public class MetrolinkCommandLineApp {
         } while (checkedStopID == 0);
 
         // Displays the amount time until the next arrives (aka 'The next train is arriving in {x} minutes')
+        appOutput.print("Fetching arrival times...");
         List<Time> arrivalTimes = getArrivalTimes(checkedStopID);
         int nextTrainMinutes = getNextArrivalTime(arrivalTimes);
         appOutput.print(String.format("The next train is arriving in %d minutes.", nextTrainMinutes));
@@ -68,7 +69,6 @@ public class MetrolinkCommandLineApp {
         ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
         TimeCalculator timeCalculator = (TimeCalculator) context.getBean("timeCalculator");
         long current = LocalTime.now().getMillisOfDay();
-        System.out.format("current ms: %d\n", current);
         int nextTrainMinutes = timeCalculator.calculate(arrivalTimes, current);
         return nextTrainMinutes;
     }
