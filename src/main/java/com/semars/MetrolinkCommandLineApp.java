@@ -1,14 +1,18 @@
 package com.semars;
 
+import com.semars.models.Stop;
+import com.semars.models.Time;
 import com.semars.util.TimeCalculator;
 import org.joda.time.LocalTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class MetrolinkCommandLineApp {
 
     public static void main(String[] varArgs) {
@@ -73,7 +77,9 @@ public class MetrolinkCommandLineApp {
         return nextTrainMinutes;
     }
 
+    @Autowired
     private MetrolinkDao metrolinkDao;
+    @Autowired
     private AppOutput appOutput;
 
     public void setMetrolinkDao(MetrolinkDao metrolinkDao) {

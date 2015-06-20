@@ -1,9 +1,10 @@
 package com.semars.util;
 
-import com.semars.Time;
-import org.joda.time.LocalTime;
+import com.semars.models.Time;
+import org.springframework.stereotype.Service;
 import java.util.*;
 
+@Service
 public class TimeCalculator {
 
     public int calculate(List<Time> arrivalTimes, long currentMillis) {

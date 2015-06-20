@@ -1,5 +1,6 @@
 package com.semars;
 
+import com.semars.models.Time;
 import com.semars.util.TimeCalculator;
 import com.semars.dao.SqliteJDBCDao;
 import org.junit.Test;

@@ -2,66 +2,44 @@ package com.semars.dao;
 
 import com.semars.AppOutput;
 import com.semars.MetrolinkDao;
-import com.semars.Stop;
-import com.semars.Time;
+import com.semars.models.Stop;
+import com.semars.models.Time;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public class SqliteJDBCDao implements MetrolinkDao {
 
-    public static final String JDBC_SQLITE_METROLINK_DB = "jdbc:sqlite:metrolink.db";
-    public static final String ORG_SQLITE_JDBC = "org.sqlite.JDBC";
-
+    @Autowired
     private AppOutput appOutput;
+    @Autowired
+    private SessionFactory sessionFactoryBean;
 
     public List<Stop> getStopsMatchedStops(String stationName) {
         appOutput.print("Fetching stations...");
         stationName = "%" +stationName + "%";
-        try (Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM stops WHERE stop_name LIKE ?1");
-            preparedStatement.setString(1, stationName);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Stop> matchedStops = new ArrayList<Stop>();
-            while (resultSet.next()) {
-                Stop stop = new Stop();
-                stop.setStopID(resultSet.getInt("stop_id"));
-                stop.setStopName(resultSet.getString("stop_name"));
-                stop.setStopDescription(resultSet.getString("stop_desc"));
-                matchedStops.add(stop);
-            }
-            return matchedStops;
-        } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving stops");
-        }
+        sessionFactoryBean.getCurrentSession().beginTransaction();
+        Criteria criteria = sessionFactoryBean.getCurrentSession().createCriteria(Stop.class);
+        criteria.add(Restrictions.like("stopName", stationName));
+        List list = criteria.list();
+        sessionFactoryBean.getCurrentSession().getTransaction().commit();
+        return list;
     }
 
     public List<Time> getArrivalTimes(int stopID) {
-        try (Connection connection = getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT arrival_time FROM stop_times WHERE stop_id=?1 ORDER BY arrival_time");
-            preparedStatement.setInt(1, stopID);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Time> arrivalTimes = new ArrayList<Time>();
-            while (resultSet.next()) {
-                Time time = new Time();
-                time.setArrivalTime(resultSet.getString("arrival_time"));
-                arrivalTimes.add(time);
-            }
-            return arrivalTimes;
-        } catch (SQLException e) {
-            throw new RuntimeException("Error retrieving arrival times");
-        }
-    }
-
-    private static Connection getConnection() throws SQLException {
-        try {
-            Class.forName(ORG_SQLITE_JDBC);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Unable to find class for loading the database", e);
-        }
-        return DriverManager.getConnection(JDBC_SQLITE_METROLINK_DB);
+        sessionFactoryBean.getCurrentSession().beginTransaction();
+        Criteria criteria = sessionFactoryBean.getCurrentSession().createCriteria(Time.class);
+        criteria.add(Restrictions.eq("stopID", stopID));
+        criteria.addOrder(Order.asc("arrivalTime"));
+        List list = criteria.list();
+        sessionFactoryBean.getCurrentSession().getTransaction().commit();
+        return list;
     }
 
     public void setAppOutput(AppOutput appOutput) {
